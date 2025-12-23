@@ -1,15 +1,88 @@
-# package
+# BA63 📺
 
-To install dependencies:
+<table style="center; width: 100%;">
+  <tr>
+    <td>
+      <p style="text-align: center;">
+        <img src="./assets/demo.png" alt="Successfully running `BA63.testRender()`" width="320"/>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">
+      <p style="text-align: center;">
+        <code>ba63</code> is a very lightweight library that allows for simple interaction with any Wincor Nixdorf BA63 USB VFD.
+      </p>
+    </td>
+  </tr>
+</table>
 
-```bash
-bun install
+## Installation
+
+<table align="center">
+<tr>
+  <td>
+  🥟 Bun:
+
+  ```bash
+  bun add ba63
+  ```
+
+  <td>
+  📦 npm:
+
+  ```bash
+  npm install ba63
+  ```
+
+  <td>
+  🧶 Yarn:
+
+  ```bash
+  yarn add ba63
+  ```
+
+  </td>
+</tr>
+</table>
+
+## Getting started
+
+Getting started with `ba63` is as easy as:
+
+```typescript
+import { BA63 } from "ba63";
+
+const ba63 = await BA63.create();
+
+await ba63.testRender();
 ```
 
-To run:
+Now we can enhance this script with the ability to clear the screen after a few seconds or on process interrupt:
 
-```bash
-bun run index.ts
+```typescript
+import { BA63 } from "ba63";
+
+const ba63 = await BA63.create();
+
+await ba63.testRender();
+
+async function exit() {
+  await ba63.clearDisplay();
+  process.exit(0);
+}
+
+setTimeout(async () => {
+  await exit();
+}, 7000);
+
+process.on("SIGINT", async () => {
+  await exit();
+});
 ```
 
-This project was created using `bun init` in bun v1.3.5. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+Alternatively, you can pull down this repo and run the demo yourself:
+
+```bash
+bun install && bun demo
+```

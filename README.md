@@ -1,32 +1,50 @@
 # BA63 📺
 
-<p style="text-align: center;">
-  <img src="./assets/demo.png" alt="Successfully running `BA63.testRender()`" width="320"/>
-</p>
-
-<p style="text-align: center;">
-<code>ba63</code> is a very lightweight library that allows for simple interaction with any Wincor Nixdorf BA63 USB VFD.
-</p>
+<table style="center; width: 100%;">
+  <tr>
+    <td>
+      <p style="text-align: center;">
+        <img src="./assets/demo.png" alt="Successfully running `BA63.testRender()`" width="320"/>
+      </p>
+    </td>
+  </tr>
+  <tr>
+    <td style="text-align: center;">
+      <p style="text-align: center;">
+        <code>ba63</code> is a very lightweight library that allows for simple interaction with any Wincor Nixdorf BA63 USB VFD.
+      </p>
+    </td>
+  </tr>
+</table>
 
 ## Installation
 
-Bun:
+<table align="center">
+<tr>
+  <td>
+  🥟 Bun:
 
-```bash
-bun add ba63
-```
+  ```bash
+  bun add ba63
+  ```
 
-npm:
+  <td>
+  📦 npm:
 
-```bash
-npm install ba63
-```
+  ```bash
+  npm install ba63
+  ```
 
-Yarn:
+  <td>
+  🧶 Yarn:
 
-```bash
-yarn add ba63
-```
+  ```bash
+  yarn add ba63
+  ```
+
+  </td>
+</tr>
+</table>
 
 ## Getting started
 

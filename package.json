@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "package": "bun --filter='ba63' run package",
-    "ba63:publish": "bun --filter='ba63' publish",
+    "ba63:publish": "bun --cwd='./packages/ba63' publish",
     "demo": "bun --filter='demo' run start"
   },
   "devDependencies": {

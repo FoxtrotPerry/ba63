@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  ZIP: ba63.zip
+  MAKE_PRE_RELEASE: ${{ contains(github.ref, 'pre') }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build package
+        run: bun run package
+
+      - name: Create release zip
+        run: |
+          mkdir ba63-release
+
+      - name: Release ba63
+        uses: ncipollo/release-action@v1.14.0
+        with:
+          artifacts: ${{ env.ZIP }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          generateReleaseNotes: true
+          makeLatest: ${{ !env.MAKE_PRE_RELEASE }}
+          prerelease: ${{ env.MAKE_PRE_RELEASE }}
+          commit: ${{ github.sha }}
