@@ -20,14 +20,14 @@
 <table align="center">
 <tr>
   <td>
-  🥟 Bun:
+  🥟 Bun
 
   ```bash
   bun add ba63
   ```
 
   <td>
-  📦 npm:
+  📦 NPM
 
   ```bash
   npm install ba63
