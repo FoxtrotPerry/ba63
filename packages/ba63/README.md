@@ -2,10 +2,8 @@
 
 <table align="center">
   <tr>
-    <td>
-      <p style="text-align: center;">
-        <img src="./assets/demo.png" alt="Successfully running `BA63.testRender()`" width="320"/>
-      </p>
+    <td align="center">
+      <img src="./assets/demo.png" alt="Successfully running `BA63.testRender()`" width="320"/>
     </td>
   </tr>
   <tr>
