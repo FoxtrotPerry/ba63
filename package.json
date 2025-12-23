@@ -1,0 +1,21 @@
+{
+  "name": "ba63-monorepo",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "package": "bun --filter='ba63' run package",
+    "ba63:publish": "bun --filter='ba63' publish",
+    "demo": "bun --filter='demo' run start"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "sideEffects": false
+}

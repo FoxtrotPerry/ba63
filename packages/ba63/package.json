@@ -1,0 +1,48 @@
+{
+  "name": "ba63",
+  "version": "1.0.0",
+  "author": {
+    "name": "Caleb Perry",
+    "url": "https://github.com/foxtrotperry",
+    "email": "caleb@foxtrotperry.com"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "scripts": {
+    "build:js": "bun run build.ts",
+    "build:types": "tsc",
+    "build": "bun run build:js && bun run build:types",
+    "package": "rm -rf ./dist && bun run build && bun pm pack",
+    "test": "bun test"
+  },
+  "keywords": [
+    "bun",
+    "ba63",
+    "vfd",
+    "wincor",
+    "nixdorf",
+    "wincor-nixdorf",
+    "wincor nixdorf",
+    "node-hid"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5",
+    "node-hid": "^3.2.0"
+  },
+  "dependencies": {
+    "node-hid": "^3.2.0"
+  }
+}
