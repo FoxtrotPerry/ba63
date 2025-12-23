@@ -1,6 +1,6 @@
 # BA63 📺
 
-<table style="center;">
+<table align="center">
   <tr>
     <td>
       <p style="text-align: center;">
