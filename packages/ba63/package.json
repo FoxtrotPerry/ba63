@@ -1,11 +1,12 @@
 {
   "name": "ba63",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Caleb Perry",
     "url": "https://github.com/foxtrotperry",
     "email": "caleb@foxtrotperry.com"
   },
+  "repository": "github.com/foxtrotperry/ba63",
   "type": "module",
   "files": [
     "dist"
