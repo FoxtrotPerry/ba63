@@ -1,6 +1,5 @@
 {
   "name": "ba63-monorepo",
-  "module": "index.ts",
   "type": "module",
   "private": true,
   "workspaces": [

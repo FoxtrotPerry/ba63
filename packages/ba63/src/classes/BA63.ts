@@ -1,5 +1,5 @@
 import HID from "node-hid";
-import type { Charset } from "~/constants/charset";
+import type { Charset } from "../constants/charset";
 
 const vendorId = 2727;
 const productId = 512;

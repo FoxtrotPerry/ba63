@@ -7,7 +7,7 @@ await ba.clearDisplay();
 
 clearOnExit(ba);
 
-for (let i = 176; i < 255; i++) {
+for (let i = 32; i < 255; i++) {
   await ba.setCursorPosition(0, 0);
   await ba.render("Code: ");
   await ba.render(i.toString());
