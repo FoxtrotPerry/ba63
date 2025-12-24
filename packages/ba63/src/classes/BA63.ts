@@ -13,7 +13,7 @@ export class BA63 {
   private device: HID.HIDAsync;
 
   /** Current cursor position in [row, column] format */
-  protected cursorPos: [number, number] = [0, 0];
+  protected cursorPos: [0 | 1, number] = [0, 0];
 
   /**
    * **NOTE**: This constructor should only be used if you already have an open HID device to interface with.
@@ -129,7 +129,7 @@ export class BA63 {
   async lineFeed(): Promise<void> {
     const command = [0x0a];
     await this.run(command);
-    this.setCursorRow(Math.min(1, this.currentRow + 1));
+    this.setCursorRow(1);
   }
 
   async backspace(): Promise<void> {
@@ -148,7 +148,7 @@ export class BA63 {
     await this.run(command);
   }
 
-  async setCursorPosition(row: number, column: number): Promise<void> {
+  async setCursorPosition(row: 0 | 1, column: number): Promise<void> {
     this.cursorPos = [row, column];
 
     const asciiRow = (row + 1).toString().charCodeAt(0);
@@ -166,7 +166,7 @@ export class BA63 {
     this.setCursorPosition(this.cursorPos[0], column);
   }
 
-  async setCursorRow(row: number): Promise<void> {
+  async setCursorRow(row: (typeof this.cursorPos)[0]): Promise<void> {
     this.setCursorPosition(row, this.cursorPos[1]);
   }
 
