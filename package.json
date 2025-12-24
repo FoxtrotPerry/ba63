@@ -10,7 +10,9 @@
     "package": "bun --filter='ba63' run package",
     "ba63:publish": "bun --cwd='./packages/ba63' publish",
     "ba63:publish:dry": "bun --cwd='./packages/ba63' publish --dry-run",
-    "demo": "bun --filter='demo' run start"
+    "demo": "bun --filter='demo' run start",
+    "demo:chars": "bun --cwd='./packages/demo' run char-test.ts",
+    "demo:blocks": "bun --cwd='./packages/demo' run block-test.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

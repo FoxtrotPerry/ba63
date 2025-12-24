@@ -1,0 +1,27 @@
+export const charset = {
+  USA: 0,
+  France: 1,
+  Germany: 2,
+  UK: 3,
+  Denmark1: 4,
+  Sweden: 5,
+  Italy: 6,
+  Spain1: 7,
+  Japan: 8,
+  Norway: 9,
+  Denmark2: 10,
+  Spain2: 11,
+  LatinAmerica: 12,
+  Standard: 30,
+  Latin1: 31,
+  Latin2: 32,
+  Latin5_Turkey: 33,
+  LatinInternational: 34,
+  Cyrillic: 35,
+  Hebrew: 37,
+  Greek2: 36,
+  Katakana: 63,
+  SpacePage: 73,
+} as const;
+
+export type Charset = (typeof charset)[keyof typeof charset];

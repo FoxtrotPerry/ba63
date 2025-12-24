@@ -1,7 +1,13 @@
 import HID from "node-hid";
+import type { Charset } from "~/constants/charset";
 
 const vendorId = 2727;
 const productId = 512;
+
+type RenderOptions = Partial<{
+  /** If the message reaches the end of the top line, start printing on the bottom line.*/
+  wrap: boolean;
+}>;
 
 export class BA63 {
   private device: HID.HIDAsync;
@@ -38,6 +44,7 @@ export class BA63 {
     }
 
     const device = await HID.HIDAsync.open(displayInterface.path!);
+
     // device.on("data", (data) => {
     //   console.log("Data received:", data);
     // });
@@ -45,25 +52,57 @@ export class BA63 {
     // device.on("error", (err) => {
     //   console.error("Error:", err);
     // });
-    return new BA63(device);
+
+    const ba63 = new BA63(device);
+    await ba63.clearDisplay();
+    await ba63.setCharset(0); // Set to USA charset
+
+    return ba63;
   }
 
   private async run(command: number[]): Promise<void> {
     // Pad to 32 bytes (HID report size)
-    const writeComment = [0x02, 0x00, command.length, ...command];
-    while (writeComment.length < 32) {
-      writeComment.push(0x00);
+    const writeCommand = [0x02, 0x00, command.length, ...command];
+    while (writeCommand.length < 32) {
+      writeCommand.push(0x00);
     }
 
-    await this.device.write(writeComment);
+    await this.device.write(writeCommand);
   }
 
-  async render(message: string): Promise<void> {
+  async render(
+    message: string | number[],
+    options?: RenderOptions
+  ): Promise<void> {
     const trimmedMessage = message.slice(0, this.lengthToEnd);
-    const data = Buffer.from(trimmedMessage, "ascii");
-    const arr = Array.from(data);
+
+    const arr =
+      typeof trimmedMessage === "string"
+        ? Array.from(Buffer.from(trimmedMessage, "ascii"))
+        : trimmedMessage;
 
     await this.run(arr);
+    this.setCursorColumn(this.currentColumn + arr.length);
+
+    // If wrapping is enabled, we're on the top line, and there's more message to render, continue rendering on next line
+    if (
+      options?.wrap &&
+      this.row === "top" &&
+      message.length > trimmedMessage.length
+    ) {
+      const excessMessage = message.slice(trimmedMessage.length);
+
+      await this.setCursorPosition(1, 0);
+
+      const excessArr =
+        typeof excessMessage === "string"
+          ? Array.from(Buffer.from(excessMessage, "ascii"))
+          : excessMessage;
+
+      await this.run(excessArr);
+      this.setCursorColumn(this.currentColumn + excessArr.length);
+      return;
+    }
   }
 
   async renderInCenter(message: string): Promise<void> {
@@ -81,7 +120,25 @@ export class BA63 {
     await this.renderInCenter("- Caleb");
   }
 
-  async setCharset(charset: number): Promise<void> {
+  async carriageReturn(): Promise<void> {
+    const command = [0x0d];
+    await this.run(command);
+    this.setCursorColumn(0);
+  }
+
+  async lineFeed(): Promise<void> {
+    const command = [0x0a];
+    await this.run(command);
+    this.setCursorRow(Math.min(1, this.currentRow + 1));
+  }
+
+  async backspace(): Promise<void> {
+    const command = [0x08];
+    await this.run(command);
+    this.setCursorColumn(Math.max(0, this.currentColumn - 1));
+  }
+
+  async setCharset(charset: Charset): Promise<void> {
     const command = [0x1b, 0x52, charset];
     await this.run(command);
   }
@@ -120,5 +177,17 @@ export class BA63 {
 
   get lengthToEnd(): number {
     return 20 - this.cursorPos[1];
+  }
+
+  get row(): "top" | "bottom" {
+    return this.cursorPos[0] === 0 ? "top" : "bottom";
+  }
+
+  get currentRow(): number {
+    return this.cursorPos[0];
+  }
+
+  get currentColumn(): number {
+    return this.cursorPos[1];
   }
 }
