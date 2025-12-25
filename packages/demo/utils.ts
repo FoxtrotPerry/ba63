@@ -1,9 +1,9 @@
 import type { BA63 } from "ba63";
 
-export async function clearOnExit(ba: BA63, exit?: () => Promise<void>) {
+export async function clearOnExit(ba: BA63, exit?: () => void) {
   async function handleExit() {
     await ba.clearDisplay();
-    await exit?.();
+    exit?.();
     process.exit(0);
   }
 

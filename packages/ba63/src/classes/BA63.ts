@@ -9,11 +9,19 @@ type RenderOptions = Partial<{
   wrap: boolean;
 }>;
 
+/** The start and end column positions of the section of cells used */
+type UsedCells = {
+  /** The start position of the section of cells used */
+  start: number;
+  /** The end position of the section of cells used */
+  end: number;
+};
+
 export class BA63 {
   private device: HID.HIDAsync;
 
   /** Current cursor position in [row, column] format */
-  protected cursorPos: [0 | 1, number] = [0, 0];
+  protected cursorPos: [number, number] = [0, 0];
 
   /**
    * **NOTE**: This constructor should only be used if you already have an open HID device to interface with.
@@ -105,12 +113,17 @@ export class BA63 {
     }
   }
 
-  async renderInCenter(message: string): Promise<void> {
+  async renderInCenter(message: string): Promise<UsedCells> {
     const trimmedMessage = message.slice(0, 20);
     const padding = Math.floor((20 - trimmedMessage.length) / 2);
     this.setCursorPosition(this.cursorPos[0], padding);
 
     await this.render(trimmedMessage);
+    const columnCellsUsed = {
+      start: padding,
+      end: padding + trimmedMessage.length - 1,
+    };
+    return columnCellsUsed;
   }
 
   async testRender(): Promise<void> {
@@ -148,7 +161,7 @@ export class BA63 {
     await this.run(command);
   }
 
-  async setCursorPosition(row: 0 | 1, column: number): Promise<void> {
+  async setCursorPosition(row: number, column: number): Promise<void> {
     this.cursorPos = [row, column];
 
     const asciiRow = (row + 1).toString().charCodeAt(0);
