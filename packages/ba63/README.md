@@ -34,7 +34,7 @@
   ```
 
   <td>
-  🧶 Yarn:
+  🧶 Yarn
 
   ```bash
   yarn add ba63
