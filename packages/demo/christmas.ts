@@ -70,7 +70,6 @@ const snowflakes: Snowflake[] = [];
 
 let r1Done = false;
 let r2Done = false;
-// r1:
 for (let i = 1; !r1Done || !r2Done; i++) {
   // generate snowflakes around the rendered text
 
