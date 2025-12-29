@@ -113,7 +113,7 @@ export class BA63 {
     }
   }
 
-  async renderInCenter(message: string): Promise<UsedCells> {
+  async renderCenter(message: string): Promise<UsedCells> {
     const trimmedMessage = message.slice(0, 20);
     const padding = Math.floor((20 - trimmedMessage.length) / 2);
     this.setCursorPosition(this.cursorPos[0], padding);
@@ -126,11 +126,36 @@ export class BA63 {
     return columnCellsUsed;
   }
 
+  async renderLeft(message: string): Promise<UsedCells> {
+    const trimmedMessage = message.slice(0, 20);
+    this.setCursorPosition(this.cursorPos[0], 0);
+
+    await this.render(trimmedMessage);
+    const columnCellsUsed = {
+      start: 0,
+      end: trimmedMessage.length - 1,
+    };
+    return columnCellsUsed;
+  }
+
+  async renderRight(message: string): Promise<UsedCells> {
+    const trimmedMessage = message.slice(0, 20);
+    const startPos = 20 - trimmedMessage.length;
+    this.setCursorPosition(this.cursorPos[0], startPos);
+
+    await this.render(trimmedMessage);
+    const columnCellsUsed = {
+      start: startPos,
+      end: 19,
+    };
+    return columnCellsUsed;
+  }
+
   async testRender(): Promise<void> {
     const testMessage = "Hello from BA63!";
-    await this.renderInCenter(testMessage);
+    await this.renderCenter(testMessage);
     await this.setCursorRow(1);
-    await this.renderInCenter("- Caleb");
+    await this.renderCenter("- Caleb");
   }
 
   async carriageReturn(): Promise<void> {

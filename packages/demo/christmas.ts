@@ -7,9 +7,9 @@ await ba.clearDisplay();
 
 async function renderMerryChristmas() {
   await ba.setCursorPosition(0, 0);
-  const r1CellsUsed = await ba.renderInCenter("Merry Christmas!");
+  const r1CellsUsed = await ba.renderCenter("Merry Christmas!");
   await ba.setCursorPosition(1, 0);
-  const r2CellsUsed = await ba.renderInCenter("2025");
+  const r2CellsUsed = await ba.renderCenter("2025");
   return { row1: r1CellsUsed, row2: r2CellsUsed };
 }
 
