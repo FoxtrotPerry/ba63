@@ -151,6 +151,14 @@ export class BA63 {
     return columnCellsUsed;
   }
 
+  async fill(charCode: number): Promise<void> {
+    const savedPos = this.cursorPos;
+    const command = Array(40).fill(charCode);
+    await this.setCursorPosition(0, 0);
+    await this.render(command, { wrap: true });
+    this.setCursorPosition(...savedPos);
+  }
+
   async testRender(): Promise<void> {
     const testMessage = "Hello from BA63!";
     await this.renderCenter(testMessage);

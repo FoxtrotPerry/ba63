@@ -1,4 +1,4 @@
-import { BA63, charset } from "ba63";
+import { BA63, charset, type Charset } from "ba63";
 import { clamp, clearOnExit } from "./utils";
 
 // TODO: Add carousel wrapping.
@@ -19,7 +19,7 @@ const STARTING_CHARSET = charset.USA;
 const STARTING_CHAR_IDX = 65 - START; // 'A'
 
 let currentCharIndex = STARTING_CHAR_IDX;
-let currentCharset: (typeof charset)[keyof typeof charset] = STARTING_CHARSET;
+let currentCharset: Charset = STARTING_CHARSET;
 let debounceTimer: NodeJS.Timeout | null = null;
 
 async function renderHeader() {
