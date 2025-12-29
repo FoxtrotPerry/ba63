@@ -1,5 +1,6 @@
 import HID from "node-hid";
 import type { Charset } from "../constants/charset";
+import { blocks } from "../constants/blocks";
 
 const vendorId = 2727;
 const productId = 512;
@@ -161,6 +162,7 @@ export class BA63 {
 
   async testRender(): Promise<void> {
     const testMessage = "Hello from BA63!";
+    await this.fill(blocks.LIGHT_SHADE);
     await this.renderCenter(testMessage);
     await this.setCursorRow(1);
     await this.renderCenter("- Caleb");
