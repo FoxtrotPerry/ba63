@@ -43,6 +43,7 @@ jobs:
       - name: Locate package tarball
         id: locate-tarball
         run: |
+          ls -la
           echo "PACKAGE_TGZ=$(ls packages/ba63/dist/ba63-*.tgz)" >> $GITHUB_ENV
 
       - name: Release ba63
