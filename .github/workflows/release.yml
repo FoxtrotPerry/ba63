@@ -1,4 +1,4 @@
-name: Release
+name: Generate Release
 
 on:
   push:
@@ -12,8 +12,10 @@ on:
         default: false
         type: boolean
 
+permissions:
+  contents: write
+
 env:
-  DIST: ba63-dist.tgz
   MAKE_PRE_RELEASE: ${{ inputs.pre_release || contains(github.ref, 'pre') }}
 jobs:
   release:
@@ -33,14 +35,15 @@ jobs:
       - name: Build package
         run: bun run package
 
-      - name: Create release tgz
+      - name: Locate package tarball
+        id: locate-tarball
         run: |
-          tar -czf ${{ env.DIST }} -C packages/ba63/dist .
+          echo "PACKAGE_TGZ=$(ls packages/ba63/dist/ba63-*.tgz)" >> $GITHUB_ENV
 
       - name: Release ba63
         uses: ncipollo/release-action@v1.20.0
         with:
-          artifacts: ${{ env.DIST }}
+          artifacts: ${{ steps.locate-tarball.outputs.path }}
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
           makeLatest: ${{ !env.MAKE_PRE_RELEASE }}
