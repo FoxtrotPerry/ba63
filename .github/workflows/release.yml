@@ -11,6 +11,11 @@ on:
         required: false
         default: false
         type: boolean
+      perform_release:
+        description: 'Create release'
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -42,6 +47,7 @@ jobs:
 
       - name: Release ba63
         uses: ncipollo/release-action@v1.20.0
+        if: ${{ inputs.perform_release || github.event_name == 'push' }}
         with:
           artifacts: ${{ steps.locate-tarball.outputs.path }}
           token: ${{ secrets.GITHUB_TOKEN }}
