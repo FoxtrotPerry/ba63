@@ -115,5 +115,10 @@ process.stdin.on("data", async (key: string) => {
   }
 });
 
+console.log("A/D to navigate characters");
+console.log("Left/Right arrows to jump 10 chars");
+console.log("W/S to change character sets.");
+console.log("Press Q or ESC to exit.");
+
 await render(0);
 await renderHeader();

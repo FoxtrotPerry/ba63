@@ -12,7 +12,7 @@
     "demo": "bun --filter='demo' run start",
     "demo:chars": "bun --cwd='./packages/demo' run char-test.ts",
     "demo:blocks": "bun --cwd='./packages/demo' run block-test.ts",
-    "demo:usCharSlider": "bun --cwd='./packages/demo' run us-char-slider.ts",
+    "demo:charViewer": "bun --cwd='./packages/demo' run char-viewer.ts",
     "demo:christmas": "bun --cwd='./packages/demo' run christmas.ts"
   },
   "devDependencies": {
