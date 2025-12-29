@@ -4,11 +4,17 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      pre_release:
+        description: 'Mark as pre-release'
+        required: false
+        default: false
+        type: boolean
 
 env:
-  ZIP: ba63.zip
-  MAKE_PRE_RELEASE: ${{ contains(github.ref, 'pre') }}
-
+  DIST: ba63-dist.tgz
+  MAKE_PRE_RELEASE: ${{ inputs.pre_release || contains(github.ref, 'pre') }}
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -27,14 +33,14 @@ jobs:
       - name: Build package
         run: bun run package
 
-      - name: Create release zip
+      - name: Create release tgz
         run: |
-          mkdir ba63-release
+          tar -czf ${{ env.DIST }} -C packages/ba63/dist .
 
       - name: Release ba63
-        uses: ncipollo/release-action@v1.14.0
+        uses: ncipollo/release-action@v1.20.0
         with:
-          artifacts: ${{ env.ZIP }}
+          artifacts: ${{ env.DIST }}
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
           makeLatest: ${{ !env.MAKE_PRE_RELEASE }}
