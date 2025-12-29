@@ -43,15 +43,14 @@ jobs:
       - name: Locate package tarball
         id: locate-tarball
         run: |
-          ls -la
           ls -la packages/ba63
-          echo "PACKAGE_TGZ=$(ls packages/ba63/dist/ba63-*.tgz)" >> $GITHUB_ENV
+          echo "PACKAGE_TGZ=$(ls packages/ba63/ba63-*.tgz)" >> $GITHUB_ENV
 
       - name: Release ba63
         uses: ncipollo/release-action@v1.20.0
         if: ${{ inputs.perform_release || github.event_name == 'push' }}
         with:
-          artifacts: ${{ steps.locate-tarball.outputs.path }}
+          artifacts: ${{ steps.locate-tarball.outputs.PACKAGE_TGZ }}
           token: ${{ secrets.GITHUB_TOKEN }}
           generateReleaseNotes: true
           makeLatest: ${{ !env.MAKE_PRE_RELEASE }}
