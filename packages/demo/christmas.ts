@@ -1,5 +1,5 @@
 import { BA63 } from "ba63";
-import { clamp, clearOnExit, wait } from "./utils";
+import { clamp, clearOnExit } from "./utils";
 
 const ba = await BA63.create();
 

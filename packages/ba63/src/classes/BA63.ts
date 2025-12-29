@@ -152,17 +152,28 @@ export class BA63 {
     return columnCellsUsed;
   }
 
-  async fill(charCode: number): Promise<void> {
+  async fill(input: number[] | string): Promise<void> {
     const savedPos = this.cursorPos;
-    const command = Array(40).fill(charCode);
+    let charCodes: number[] = [];
+
+    const isString = typeof input === "string";
+
+    for (let i = 0; i < 40; i++) {
+      if (isString) {
+        charCodes.push(input.charCodeAt(i % input.length));
+      } else {
+        charCodes.push(input[i % input.length]!);
+      }
+    }
+
     await this.setCursorPosition(0, 0);
-    await this.render(command, { wrap: true });
+    await this.render(charCodes, { wrap: true });
     this.setCursorPosition(...savedPos);
   }
 
   async testRender(): Promise<void> {
     const testMessage = "Hello from BA63!";
-    await this.fill(blocks.LIGHT_SHADE);
+    await this.fill([blocks.LIGHT_SHADE]);
     await this.renderCenter(testMessage);
     await this.setCursorRow(1);
     await this.renderCenter("- Caleb");
