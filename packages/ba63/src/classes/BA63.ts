@@ -97,7 +97,8 @@ export class BA63 {
     await this.run(arr);
     this.setCursorColumn(this.currentColumn + arr.length);
 
-    // If wrapping is enabled, we're on the top line, and there's more message to render, continue rendering on next line
+    // If wrapping is enabled, we're on the top line, and there's more
+    // message to render, then continue rendering on next line
     if (
       options?.wrap &&
       this.row === "top" &&
