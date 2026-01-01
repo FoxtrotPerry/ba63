@@ -13,6 +13,7 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "ba63": "workspace:*"
+    "ba63": "workspace:*",
+    "date-fns": "^4.1.0"
   }
 }

@@ -13,7 +13,8 @@
     "demo:chars": "bun --cwd='./packages/demo' run char-test.ts",
     "demo:blocks": "bun --cwd='./packages/demo' run block-test.ts",
     "demo:charViewer": "bun --cwd='./packages/demo' run char-viewer.ts",
-    "demo:christmas": "bun --cwd='./packages/demo' run christmas.ts"
+    "demo:christmas": "bun --cwd='./packages/demo' run christmas.ts",
+    "demo:newYears": "bun --cwd='./packages/demo' run new-years.ts"
   },
   "devDependencies": {
     "@types/bun": "latest"

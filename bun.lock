@@ -13,7 +13,7 @@
     },
     "packages/ba63": {
       "name": "ba63",
-      "version": "1.0.0",
+      "version": "3.0.0",
       "dependencies": {
         "node-hid": "^3.2.0",
       },
@@ -29,6 +29,7 @@
       "name": "demo",
       "dependencies": {
         "ba63": "workspace:*",
+        "date-fns": "^4.1.0",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -56,6 +57,8 @@
     "color-convert": ["color-convert@2.0.1", "", { "dependencies": { "color-name": "~1.1.4" } }, "sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ=="],
 
     "color-name": ["color-name@1.1.4", "", {}, "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="],
+
+    "date-fns": ["date-fns@4.1.0", "", {}, "sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg=="],
 
     "demo": ["demo@workspace:packages/demo"],
 

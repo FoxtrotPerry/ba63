@@ -6,8 +6,10 @@ const vendorId = 2727;
 const productId = 512;
 
 type RenderOptions = Partial<{
-  /** If the message reaches the end of the top line, start printing on the bottom line.*/
+  /** If the message reaches the end of the top line, start printing on the bottom line */
   wrap: boolean;
+  /** Reset cursor position to where it was prior to rendering */
+  preserveCursorPos: boolean;
 }>;
 
 /** The start and end column positions of the section of cells used */
@@ -85,6 +87,8 @@ export class BA63 {
   ): Promise<void> {
     const trimmedMessage = message.slice(0, this.lengthToEnd);
 
+    const savedPos = this.cursorPos;
+
     const arr =
       typeof trimmedMessage === "string"
         ? Array.from(Buffer.from(trimmedMessage, "ascii"))
@@ -110,16 +114,22 @@ export class BA63 {
 
       await this.run(excessArr);
       this.setCursorColumn(this.currentColumn + excessArr.length);
-      return;
+    }
+
+    if (options?.preserveCursorPos) {
+      this.setCursorPosition(...savedPos);
     }
   }
 
-  async renderCenter(message: string): Promise<UsedCells> {
+  async renderCenter(
+    message: string,
+    options?: RenderOptions
+  ): Promise<UsedCells> {
     const trimmedMessage = message.slice(0, 20);
     const padding = Math.floor((20 - trimmedMessage.length) / 2);
     this.setCursorPosition(this.cursorPos[0], padding);
 
-    await this.render(trimmedMessage);
+    await this.render(trimmedMessage, options);
     const columnCellsUsed = {
       start: padding,
       end: padding + trimmedMessage.length - 1,
@@ -127,11 +137,14 @@ export class BA63 {
     return columnCellsUsed;
   }
 
-  async renderLeft(message: string): Promise<UsedCells> {
+  async renderLeft(
+    message: string,
+    options?: RenderOptions
+  ): Promise<UsedCells> {
     const trimmedMessage = message.slice(0, 20);
     this.setCursorPosition(this.cursorPos[0], 0);
 
-    await this.render(trimmedMessage);
+    await this.render(trimmedMessage, options);
     const columnCellsUsed = {
       start: 0,
       end: trimmedMessage.length - 1,
@@ -139,12 +152,15 @@ export class BA63 {
     return columnCellsUsed;
   }
 
-  async renderRight(message: string): Promise<UsedCells> {
+  async renderRight(
+    message: string,
+    options?: RenderOptions
+  ): Promise<UsedCells> {
     const trimmedMessage = message.slice(0, 20);
     const startPos = 20 - trimmedMessage.length;
     this.setCursorPosition(this.cursorPos[0], startPos);
 
-    await this.render(trimmedMessage);
+    await this.render(trimmedMessage, options);
     const columnCellsUsed = {
       start: startPos,
       end: 19,
@@ -152,7 +168,7 @@ export class BA63 {
     return columnCellsUsed;
   }
 
-  async fill(input: number[] | string): Promise<void> {
+  async fill(input: number[] | string, options?: RenderOptions): Promise<void> {
     const savedPos = this.cursorPos;
     let charCodes: number[] = [];
 
@@ -167,7 +183,7 @@ export class BA63 {
     }
 
     await this.setCursorPosition(0, 0);
-    await this.render(charCodes, { wrap: true });
+    await this.render(charCodes, { wrap: true, ...options });
     this.setCursorPosition(...savedPos);
   }
 
@@ -232,6 +248,15 @@ export class BA63 {
   async clearDisplay(): Promise<void> {
     const command = [0x1b, 0x5b, 0x32, 0x4a];
     await this.run(command);
+  }
+
+  async clearRow(row?: number): Promise<void> {
+    if (row !== undefined) {
+      await this.setCursorPosition(row, 0);
+    } else {
+      await this.setCursorPosition(this.currentRow, 0);
+    }
+    await this.deleteToEOL();
   }
 
   get lengthToEnd(): number {
