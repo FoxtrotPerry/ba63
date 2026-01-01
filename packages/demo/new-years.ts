@@ -10,16 +10,16 @@ let prevTimeLeft = "";
 
 await ba.setCursorPosition(0, 0);
 await ba.fill([240]);
-await ba.renderCenter(`${nextYear.getFullYear()} COUNTDOWN!`);
+await ba.renderCenter(`=-${nextYear.getFullYear()} COUNTDOWN-=`);
 await ba.setCursorPosition(1, 0);
 
 async function renderTimeLeft() {
   const now = new Date();
   const duration = intervalToDuration({ start: now, end: nextYear });
   const hours = differenceInHours(nextYear, now);
-  const timeLeft = `${hours}h ${duration.minutes ?? 0}m ${
+  const timeLeft = `=-${hours}h ${duration.minutes ?? 0}m ${
     duration.seconds ?? 0
-  }s`;
+  }s-=`;
   if (prevTimeLeft.length !== timeLeft.length) {
     await ba.clearRow(1);
     await ba.setCursorPosition(1, 0);
@@ -30,19 +30,22 @@ async function renderTimeLeft() {
   prevTimeLeft = timeLeft;
 }
 
+let newYearRendered = false;
+
 async function renderHappyNewYear() {
-  await ba.clearRow(0);
+  if (newYearRendered) return;
+  await ba.fill([240]);
   await ba.setCursorPosition(0, 0);
-  await ba.renderCenter("HAPPY NEW YEAR!");
+  await ba.renderCenter("=-HAPPY NEW YEAR-=");
+  newYearRendered = true;
 }
 
 const interval = setInterval(async () => {
   const isNewYear = new Date() >= nextYear;
   if (isNewYear) {
     await renderHappyNewYear();
-  } else {
-    await renderTimeLeft();
   }
+  await renderTimeLeft();
 }, 1000);
 
 clearOnExit(ba, () => {
