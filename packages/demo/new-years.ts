@@ -1,10 +1,6 @@
 import { BA63 } from "ba63";
 import { clearOnExit } from "./utils";
-import {
-  differenceInHours,
-  formatDistanceStrict,
-  intervalToDuration,
-} from "date-fns";
+import { differenceInHours, intervalToDuration } from "date-fns";
 
 const ba = await BA63.create();
 
